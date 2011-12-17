@@ -2,7 +2,7 @@
 
 Once I add all support files and tests and set up the CS-to-JS pipeline we'll be good to go.  Till then, move on, this is not the library you're looking for.
 
-# angleUp - The HTML6 Shiv [![Build Status](https://secure.travis-ci.org/ludicast/anguleUp.png)](http://travis-ci.org/ludicast/anguleUp)
+# angle-up - The HTML6 Shiv [![Build Status](https://secure.travis-ci.org/ludicast/angle-up.png)](http://travis-ci.org/ludicast/angle-up)
 
 This project adds helpers for DRYing up your angularjs projects.  The eventual goal is to help you write even less code than angular normally makes you.  My inspiration is Jose Valim's [Inherited Resources](http://github.com/josevalim/inherited_resources) gem
 
@@ -15,13 +15,13 @@ This project adds helpers for DRYing up your angularjs projects.  The eventual g
 
 ### Installation
 
-Just load the angleUp.js file after you load angular.  It will also initialize angular for you (see, it's already saved you typing).
+Just load the angle-up.js file after you load angular.  It will also initialize angular for you (see, it's already saved you typing).
 
-Or if you are using [angular-rails](http://github.com/ludicast/angular-rails) inside a Rails project, it will take care of adding angleUp.js to your asset pipeline.
+Or if you are using [angular-rails](http://github.com/ludicast/angular-rails) inside a Rails project, it will take care of adding angle-up.js to your asset pipeline.
 
 ## Helpers
 
-The angleUp.js file contains some helper functions/objects/classes/services to clean things up.
+The angle-up.js file contains some helper functions/objects/classes/services to clean things up.
 
 ### Router
 
