@@ -93,23 +93,19 @@
     function AngularModel() {}
 
     AngularModel.prototype.initialize = function() {
-      var association, clazz, name, obj, _ref, _results;
+      var clazz, name, obj, _i, _len, _ref, _ref2, _results;
       if (this.hasMany) {
         _ref = this.hasMany;
-        _results = [];
         for (name in _ref) {
           clazz = _ref[name];
-          association = this[name] || [];
-          _results.push((function() {
-            var _i, _len, _results2;
-            _results2 = [];
-            for (_i = 0, _len = association.length; _i < _len; _i++) {
-              obj = association[_i];
-              obj.__proto__ = new clazz();
-              _results2.push(typeof obj.initialize === "function" ? obj.initialize() : void 0);
-            }
-            return _results2;
-          })());
+          this[name] || (this[name] = []);
+        }
+        _ref2 = this[name];
+        _results = [];
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          obj = _ref2[_i];
+          obj.__proto__ = new clazz();
+          _results.push(typeof obj.initialize === "function" ? obj.initialize() : void 0);
         }
         return _results;
       }

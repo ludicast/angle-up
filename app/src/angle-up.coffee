@@ -22,6 +22,7 @@ class @Router
     @setupXhr()
     @initRoutes @routes()
 
+
 @resourceService = (serviceName, path, methods...)->
 	if methods.length is 0
 		methods.push 'index', 'create', 'update', 'destroy', 'show'
@@ -49,8 +50,8 @@ class @AngularModel
 	initialize:->
 		if @hasMany
 			for name, clazz of @hasMany
-				association = @[name] or []
-				for obj in association
+        @[name] or= []
+				for obj in @[name]
 					obj.__proto__ = new clazz()
 					obj.initialize?()
 

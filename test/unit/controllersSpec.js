@@ -1,29 +1,22 @@
-/* jasmine specs for controllers go here */
+(function() {
 
-describe('MyCtrl1', function(){
-  var myCtrl1;
-
-  beforeEach(function(){
-    myCtrl1 = new MyCtrl1();
+  describe('MyCtrl1', function() {
+    var myCtrl;
+    myCtrl = null;
+    beforeEach(function() {
+      var myCtrl1;
+      return myCtrl1 = new MyCtrl1();
+    });
+    return it('should ....', function() {});
   });
 
-
-  it('should ....', function() {
-    //spec body
-  });
-});
-
-
-describe('MyCtrl2', function(){
-  var myCtrl2;
-
-
-  beforeEach(function(){
-    myCtrl2 = new MyCtrl2();
+  describe('MyCtrl2', function() {
+    var myCtrl2;
+    myCtrl2 = null;
+    beforeEach(function() {
+      return myCtrl2 = new MyCtrl2();
+    });
+    return it('should ....', function() {});
   });
 
-
-  it('should ....', function() {
-    //spec body
-  });
-});
+}).call(this);
