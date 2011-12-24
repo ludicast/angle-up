@@ -9,7 +9,6 @@ class @Router
           controller: info.controller
     @$route.parent @
 
-
   setupXhr:->
     @$xhr.defaults.headers.post['Content-Type'] = 'application/json'
     @$xhr.defaults.headers.put['Content-Type'] = 'application/json'
@@ -21,7 +20,7 @@ class @Router
 
   constructor:(@$route, @$xhr)->
     @setupXhr()
-    @initRoutes @routes()
+    @initRoutes @routes?()
 
 
 @resourceService = (serviceName, path, methods...)->

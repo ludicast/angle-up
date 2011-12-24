@@ -15,4 +15,4 @@ angular.service('myAngularApp', function($route, $window) {
     $window.scrollTo(0,0);
   });
 
-}, {$inject:['$route', '$window'], $eager: true});
+}, {$inject:['$route', '$window'], $eager: false});

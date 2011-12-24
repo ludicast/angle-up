@@ -36,7 +36,7 @@
       this.$route = $route;
       this.$xhr = $xhr;
       this.setupXhr();
-      this.initRoutes(this.routes());
+      this.initRoutes(typeof this.routes === "function" ? this.routes() : void 0);
     }
 
     return Router;
