@@ -9,6 +9,7 @@ class @Router
           controller: info.controller
     @$route.parent @
 
+
   setupXhr:->
     @$xhr.defaults.headers.post['Content-Type'] = 'application/json'
     @$xhr.defaults.headers.put['Content-Type'] = 'application/json'

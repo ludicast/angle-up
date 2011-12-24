@@ -1,20 +1,26 @@
 (function() {
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  describe('MyCtrl1', function() {
-    var myCtrl;
-    myCtrl = null;
-    beforeEach(function() {
-      var myCtrl1;
-      return myCtrl1 = new MyCtrl1();
-    });
-    return it('should ....', function() {});
-  });
+  describe('ApplicationRouter', function() {
+    var ApplicationRouter;
+    ApplicationRouter = (function(_super) {
 
-  describe('MyCtrl2', function() {
-    var myCtrl2;
-    myCtrl2 = null;
+      __extends(ApplicationRouter, _super);
+
+      function ApplicationRouter() {
+        ApplicationRouter.__super__.constructor.apply(this, arguments);
+      }
+
+      return ApplicationRouter;
+
+    })(Router);
     beforeEach(function() {
-      return myCtrl2 = new MyCtrl2();
+      var $browser, myCtrl1, scope;
+      scope = angular.scope();
+      $browser = scope.$service('$browser');
+      ApplicationRouter.$inject = ['$route', '$xhr'];
+      return myCtrl1 = scope.$new(ApplicationRouter);
     });
     return it('should ....', function() {});
   });

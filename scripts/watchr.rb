@@ -12,7 +12,8 @@ log_file = File.expand_path(File.dirname(__FILE__) + '/../logs/jstd.log')
 
 puts "String watchr... log file: #{log_file}"
 
-watch('(app/src|test/src)/.*\.coffee') {|match| system "cake build"}
+watch('app/src/.*\.coffee') {|match| system "cake build"}
+watch('test/src/.*\.coffee') {|match| system "cake build"}
 
 watch( '(app/js|test/unit)' )  do
   `echo "\n\ntest run started @ \`date\`" > #{log_file}`

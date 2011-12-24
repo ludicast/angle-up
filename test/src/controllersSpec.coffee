@@ -1,12 +1,15 @@
-describe 'MyCtrl1', ->
-  myCtrl = null
-  beforeEach ->
-    myCtrl1 = new MyCtrl1()
-  it 'should ....', ->
-
-describe 'MyCtrl2', ->
-  myCtrl2 = null
+describe 'ApplicationRouter', ->
+  class ApplicationRouter extends Router
 
   beforeEach ->
-    myCtrl2 = new MyCtrl2()
+    scope = angular.scope()
+    $browser = scope.$service '$browser'
+    #$route = scope.$service '$route'
+    #$xhr = scope.$service '$xhr'
+    ApplicationRouter.$inject = ['$route','$xhr']
+    myCtrl1 = scope.$new ApplicationRouter
+
+
   it 'should ....', ->
+    
+
