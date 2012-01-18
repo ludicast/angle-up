@@ -2,6 +2,8 @@
 
 Once I add all support files and tests and set up the CS-to-JS pipeline we'll be good to go.  Till then, move on, this is not the library you're looking for.
 
+Also, I am updating it to use 10.6 (after I learn all the new 10.6 goodness), so I just brought in the code from the newest angular-seed.
+
 # angle-up - The HTML6 Shiv [![Build Status](https://secure.travis-ci.org/ludicast/angle-up.png)](http://travis-ci.org/ludicast/angle-up)
 
 This project adds helpers for DRYing up your angularjs projects.  The eventual goal is to help you write even less code than angular normally makes you.  My inspiration is Jose Valim's [Inherited Resources](http://github.com/josevalim/inherited_resources) gem
@@ -10,7 +12,7 @@ This project adds helpers for DRYing up your angularjs projects.  The eventual g
 
 * Coffeescript - though there is a javascript file of the compiled Coffeescript, to edit or test the project (as well as read the docs), you need to know some coffeescript.  I will hopefully have a side-by side comparator in the docs letting people avoid need to know coffeescript to use the library.
 * RESTful controllers where clintside models follow an equivalent naming convention.  This isn't a hard and fast rule, but I am trying to build this functionality out to reduce the clientside boilerplate needed. 
-* Angular 0.10.5 - We are sticking to the "approved bleeding edge"
+* Angular 0.10.6 - We are sticking to the "approved bleeding edge"
 * JQuery is loaded somewhere in the asset pipeline.
 
 ### Installation
