@@ -33,8 +33,17 @@
       });
     });
     return describe('with routes', function() {
+      var Controller1;
+      Controller1 = null;
       beforeEach(function() {
         var $browser, TestRouter, scope;
+        Controller1 = (function() {
+
+          function Controller1() {}
+
+          return Controller1;
+
+        })();
         TestRouter = (function(_super) {
 
           __extends(TestRouter, _super);
@@ -45,7 +54,11 @@
 
           TestRouter.prototype.routes = function() {
             return {
-              "default": "/dft"
+              "default": "/dft",
+              "/dft": {
+                template: "/template.html",
+                controller: Controller1
+              }
             };
           };
 
@@ -56,6 +69,10 @@
         $browser = scope.$service('$browser');
         TestRouter.$inject = ['$route', '$xhr'];
         return this.router = scope.$new(TestRouter);
+      });
+      it('takes route info', function() {
+        expect(this.router.$route.routes['/dft'].template).toEqual("/template.html");
+        return expect(this.router.$route.routes['/dft'].controller).toEqual(Controller1);
       });
       return it('has default route assignment', function() {
         return expect(this.router.$route.routes["null"].redirectTo).toEqual("/dft");

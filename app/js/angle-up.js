@@ -1,9 +1,12 @@
 (function() {
-  var __slice = Array.prototype.slice;
+  var AbstractRouter,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
+    __slice = Array.prototype.slice;
 
-  this.Router = (function() {
+  AbstractRouter = (function() {
 
-    Router.prototype.initRoutes = function(routes) {
+    AbstractRouter.prototype.initRoutes = function(routes) {
       var info, routeName;
       for (routeName in routes) {
         info = routes[routeName];
@@ -21,7 +24,7 @@
       return this.$route.parent(this);
     };
 
-    Router.prototype.setupXhr = function() {
+    AbstractRouter.prototype.setupXhr = function() {
       var token;
       this.$xhr.defaults.headers.post['Content-Type'] = 'application/json';
       this.$xhr.defaults.headers.put['Content-Type'] = 'application/json';
@@ -32,16 +35,28 @@
       }
     };
 
-    function Router($route, $xhr) {
+    function AbstractRouter($route, $xhr) {
       this.$route = $route;
       this.$xhr = $xhr;
       this.setupXhr();
       this.initRoutes(typeof this.routes === "function" ? this.routes() : void 0);
     }
 
-    return Router;
+    return AbstractRouter;
 
   })();
+
+  this.Router = (function(_super) {
+
+    __extends(Router, _super);
+
+    function Router($route, $xhr) {
+      Router.__super__.constructor.call(this, $route, $xhr);
+    }
+
+    return Router;
+
+  })(AbstractRouter);
 
   this.resourceService = function() {
     var commandHash, methods, path, serviceName, type, _i, _len;

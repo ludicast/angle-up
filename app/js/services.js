@@ -9,7 +9,7 @@ angular.service('myAngularApp', function($route, $window) {
   $route.when('/view2', {template: 'partials/partial2.html', controller: MyCtrl2});
   $route.otherwise({redirectTo: '/view1'});
 
-  var self = this;
+	var self = this;
 
   self.$on('$afterRouteChange', function(){
     $window.scrollTo(0,0);

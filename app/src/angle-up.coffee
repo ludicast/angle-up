@@ -1,4 +1,4 @@
-class @Router
+class AbstractRouter
   initRoutes:(routes)->
     for routeName, info of routes
       if routeName is "default"
@@ -22,6 +22,9 @@ class @Router
     @setupXhr()
     @initRoutes @routes?()
 
+class @Router extends AbstractRouter
+   constructor:($route, $xhr)->
+     super($route,$xhr)
 
 @resourceService = (serviceName, path, methods...)->
 	if methods.length is 0
