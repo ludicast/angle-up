@@ -16,7 +16,7 @@
 
           return TestRouter;
 
-        })(Router);
+        })(RailsRouter);
         scope = angular.scope();
         $browser = scope.$service('$browser');
         TestRouter.$inject = ['$route', '$xhr'];

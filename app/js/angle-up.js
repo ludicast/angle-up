@@ -25,14 +25,8 @@
     };
 
     AbstractRouter.prototype.setupXhr = function() {
-      var token;
       this.$xhr.defaults.headers.post['Content-Type'] = 'application/json';
-      this.$xhr.defaults.headers.put['Content-Type'] = 'application/json';
-      if (token = $("meta[name='csrf-token']").attr("content")) {
-        this.$xhr.defaults.headers.post['X-CSRF-Token'] = token;
-        this.$xhr.defaults.headers.put['X-CSRF-Token'] = token;
-        return this.$xhr.defaults.headers['delete']['X-CSRF-Token'] = token;
-      }
+      return this.$xhr.defaults.headers.put['Content-Type'] = 'application/json';
     };
 
     function AbstractRouter($route, $xhr) {
@@ -46,15 +40,25 @@
 
   })();
 
-  this.Router = (function(_super) {
+  this.RailsRouter = (function(_super) {
 
-    __extends(Router, _super);
+    __extends(RailsRouter, _super);
 
-    function Router($route, $xhr) {
-      Router.__super__.constructor.call(this, $route, $xhr);
+    function RailsRouter() {
+      RailsRouter.__super__.constructor.apply(this, arguments);
     }
 
-    return Router;
+    RailsRouter.prototype.setupXHR = function() {
+      var token;
+      RailsRouter.__super__.setupXHR.call(this);
+      if (token = $("meta[name='csrf-token']").attr("content")) {
+        this.$xhr.defaults.headers.post['X-CSRF-Token'] = token;
+        this.$xhr.defaults.headers.put['X-CSRF-Token'] = token;
+        return this.$xhr.defaults.headers['delete']['X-CSRF-Token'] = token;
+      }
+    };
+
+    return RailsRouter;
 
   })(AbstractRouter);
 

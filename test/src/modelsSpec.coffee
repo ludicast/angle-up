@@ -20,4 +20,3 @@ describe 'AngularModel', ->
 
     it 'assigns its hasMany the associated class', ->
       expect(@model.sub_models[0].constructor.name).toEqual("SubModel")
-
