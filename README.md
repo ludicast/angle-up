@@ -17,9 +17,9 @@ This project adds helpers for DRYing up your angularjs projects.  The eventual g
 
 ### Installation
 
-Just load the angle-up.js file after you load angular.  It will also initialize angular for you (see, it's already saved you typing).
+Just load the angle-up.js file after you load angular.
 
-Or if you are using [angular-rails](http://github.com/ludicast/angular-rails) inside a Rails project, it will take care of adding angle-up.js to your asset pipeline.
+Or if you are using [angular-rails](http://github.com/ludicast/angular-rails) inside a Rails project, its generators will take care of adding angle-up.js to your asset pipeline.
 
 ## Helpers
 
