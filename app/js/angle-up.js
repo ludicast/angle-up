@@ -1,12 +1,12 @@
 (function() {
-  var AbstractRouter,
+  var Router,
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
     __slice = Array.prototype.slice;
 
-  AbstractRouter = (function() {
+  Router = (function() {
 
-    AbstractRouter.prototype.initRoutes = function(routes) {
+    Router.prototype.initRoutes = function(routes) {
       var info, routeName;
       for (routeName in routes) {
         info = routes[routeName];
@@ -24,19 +24,19 @@
       return this.$route.parent(this);
     };
 
-    AbstractRouter.prototype.setupXhr = function() {
+    Router.prototype.setupXhr = function() {
       this.$xhr.defaults.headers.post['Content-Type'] = 'application/json';
       return this.$xhr.defaults.headers.put['Content-Type'] = 'application/json';
     };
 
-    function AbstractRouter($route, $xhr) {
+    function Router($route, $xhr) {
       this.$route = $route;
       this.$xhr = $xhr;
       this.setupXhr();
       this.initRoutes(typeof this.routes === "function" ? this.routes() : void 0);
     }
 
-    return AbstractRouter;
+    return Router;
 
   })();
 
@@ -60,7 +60,7 @@
 
     return RailsRouter;
 
-  })(AbstractRouter);
+  })(Router);
 
   this.resourceService = function() {
     var commandHash, methods, path, serviceName, type, _i, _len;

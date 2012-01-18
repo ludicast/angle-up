@@ -1,4 +1,4 @@
-class AbstractRouter
+class Router
   initRoutes:(routes)->
     for routeName, info of routes
       if routeName is "default"
@@ -17,7 +17,7 @@ class AbstractRouter
     @setupXhr()
     @initRoutes @routes?()
 
-class @RailsRouter extends AbstractRouter
+class @RailsRouter extends Router
    setupXHR: ->
     super()
     if token = $("meta[name='csrf-token']").attr("content")
