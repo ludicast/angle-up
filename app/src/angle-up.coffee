@@ -65,6 +65,16 @@ angular.service "eventuallyWork", (($defer)->
     eventuallyWork(func, 10)
 ), {$inject: ['$defer']}
 
+@adaptForAngular = (clazz, injections...)->
+  injections.push "$scope"
+  @[clazz.name] = (args..., scope)->
+    controller = new clazz()
+    angular.extend scope, controller
+    scope.initializeInjections? args...
+    scope.$scope = scope
+
+  @[clazz.name].$inject = injections
+
 @autowrap = (clazz, callback)->
 	(result)->
 		result.__proto__ = new clazz()
