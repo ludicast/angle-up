@@ -55,7 +55,8 @@ class @AngularModel
 					obj.__proto__ = new clazz()
 					obj.initialize?()
 
-angular.service "eventuallyWork", (($defer)->
+module = angular.module "eventuallyWork", ['$defer']
+module.factory 'serviceId', ->
   eventuallyWork = (func, timeout)->
     try
       func()
@@ -63,17 +64,25 @@ angular.service "eventuallyWork", (($defer)->
       $defer (-> eventuallyWork func, 2*timeout), timeout
   (func)->
     eventuallyWork(func, 10)
-), {$inject: ['$defer']}
 
-@adaptForAngular = (clazz, injections...)->
+@adaptForAngular = (clazz, alias, injections...)=>
   injections.push "$scope"
-  @[clazz.name] = (args..., scope)->
+  console.log "adapting goodness", clazz, clazz.name
+  window[alias] = (args..., scope)->
     controller = new clazz()
     angular.extend scope, controller
     scope.initializeInjections? args...
     scope.$scope = scope
+    
+    for observer in (clazz.$observers || [])
+      new observer(scope)
 
-  @[clazz.name].$inject = injections
+  window[alias].$inject = injections
+
+class @JqueryObserver
+  constructor:(@$scope)->
+    $ =>
+      @onReady?()
 
 @autowrap = (clazz, callback)->
 	(result)->
