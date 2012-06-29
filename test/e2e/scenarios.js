@@ -1,3 +1,7 @@
+'use strict';
+
+/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
+
 describe('my app', function() {
 
   beforeEach(function() {
@@ -18,7 +22,7 @@ describe('my app', function() {
 
 
     it('should render view1 when user navigates to /view1', function() {
-      expect(element('ng\\:view p:first').text()).
+      expect(element('[ng-view] p:first').text()).
         toMatch(/partial for view 1/);
     });
 
@@ -32,8 +36,8 @@ describe('my app', function() {
     });
 
 
-    it('should render view1 when user navigates to /view2', function() {
-      expect(element('ng\\:view p:first').text()).
+    it('should render view2 when user navigates to /view2', function() {
+      expect(element('[ng-view] p:first').text()).
         toMatch(/partial for view 2/);
     });
 

@@ -1,6 +1,6 @@
 /**
- * @license AngularJS v0.10.6
- * (c) 2010-2012 AngularJS http://angularjs.org
+ * @license AngularJS v1.0.1
+ * (c) 2010-2012 Google, Inc. http://angularjs.org
  * License: MIT
  */
 
@@ -37,7 +37,7 @@ function setupModuleLoader(window) {
      * # Module
      *
      * A module is a collocation of services, directives, filters, and configure information. Module
-     * is used to configure the {@link angular.module.AUTO.$injector $injector}.
+     * is used to configure the {@link AUTO.$injector $injector}.
      *
      * <pre>
      * // Create a new module
@@ -48,6 +48,7 @@ function setupModuleLoader(window) {
      *
      * // configure existing services inside initialization blocks.
      * myModule.config(function($locationProvider) {
+'use strict';
      *   // Configure existing providers
      *   $locationProvider.hashPrefix('!');
      * });
@@ -59,7 +60,8 @@ function setupModuleLoader(window) {
      * var injector = angular.injector(['ng', 'MyModule'])
      * </pre>
      *
-     * However it's more likely that you'll just use {@link angular.directive.ng:app ng:app} or
+     * However it's more likely that you'll just use
+     * {@link ng.directive:ngApp ngApp} or
      * {@link angular.bootstrap} to simplify this process for you.
      *
      * @param {!string} name The name of the module to create or retrieve.
@@ -114,14 +116,14 @@ function setupModuleLoader(window) {
 
           /**
            * @ngdoc method
-           * @name angular.Module#service
+           * @name angular.Module#provider
            * @methodOf angular.Module
            * @param {string} name service name
            * @param {Function} providerType Construction function for creating new instance of the service.
            * @description
-           * See {@link angular.module.AUTO.$provide#service $provide.service()}.
+           * See {@link AUTO.$provide#provider $provide.provider()}.
            */
-          service: invokeLater('$provide', 'service'),
+          provider: invokeLater('$provide', 'provider'),
 
           /**
            * @ngdoc method
@@ -130,9 +132,20 @@ function setupModuleLoader(window) {
            * @param {string} name service name
            * @param {Function} providerFunction Function for creating new instance of the service.
            * @description
-           * See {@link angular.module.AUTO.$provide#service $provide.factory()}.
+           * See {@link AUTO.$provide#factory $provide.factory()}.
            */
           factory: invokeLater('$provide', 'factory'),
+
+          /**
+           * @ngdoc method
+           * @name angular.Module#service
+           * @methodOf angular.Module
+           * @param {string} name service name
+           * @param {Function} constructor A constructor function that will be instantiated.
+           * @description
+           * See {@link AUTO.$provide#service $provide.service()}.
+           */
+          service: invokeLater('$provide', 'service'),
 
           /**
            * @ngdoc method
@@ -141,20 +154,55 @@ function setupModuleLoader(window) {
            * @param {string} name service name
            * @param {*} object Service instance object.
            * @description
-           * See {@link angular.module.AUTO.$provide#value $provide.value()}.
+           * See {@link AUTO.$provide#value $provide.value()}.
            */
           value: invokeLater('$provide', 'value'),
 
           /**
            * @ngdoc method
+           * @name angular.Module#constant
+           * @methodOf angular.Module
+           * @param {string} name constant name
+           * @param {*} object Constant value.
+           * @description
+           * Because the constant are fixed, they get applied before other provide methods.
+           * See {@link AUTO.$provide#constant $provide.constant()}.
+           */
+          constant: invokeLater('$provide', 'constant', 'unshift'),
+
+          /**
+           * @ngdoc method
            * @name angular.Module#filter
            * @methodOf angular.Module
-           * @param {string} name filterr name
+           * @param {string} name Filter name.
            * @param {Function} filterFactory Factory function for creating new instance of filter.
            * @description
-           * See {@link angular.module.ng.$filterProvider#register $filterProvider.register()}.
+           * See {@link ng.$filterProvider#register $filterProvider.register()}.
            */
           filter: invokeLater('$filterProvider', 'register'),
+
+          /**
+           * @ngdoc method
+           * @name angular.Module#controller
+           * @methodOf angular.Module
+           * @param {string} name Controller name.
+           * @param {Function} constructor Controller constructor function.
+           * @description
+           * See {@link ng.$controllerProvider#register $controllerProvider.register()}.
+           */
+          controller: invokeLater('$controllerProvider', 'register'),
+
+          /**
+           * @ngdoc method
+           * @name angular.Module#directive
+           * @methodOf angular.Module
+           * @param {string} name directive name
+           * @param {Function} directiveFactory Factory function for creating new instance of
+           * directives.
+           * @description
+           * See {@link ng.$compileProvider.directive $compileProvider.directive()}.
+           */
+          directive: invokeLater('$compileProvider', 'directive'),
 
           /**
            * @ngdoc method
@@ -192,11 +240,12 @@ function setupModuleLoader(window) {
         /**
          * @param {string} provider
          * @param {string} method
+         * @param {String=} insertMethod
          * @returns {angular.Module}
          */
-        function invokeLater(provider, method) {
+        function invokeLater(provider, method, insertMethod) {
           return function() {
-            invokeQueue.push([provider, method, arguments]);
+            invokeQueue[insertMethod || 'push']([provider, method, arguments]);
             return moduleInstance;
           }
         }

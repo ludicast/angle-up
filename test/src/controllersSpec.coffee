@@ -1,8 +1,11 @@
 describe 'Main Router', ->
   describe 'by default', ->
-    beforeEach ->
+    beforeEach inject ($rootScope)->
+      console.log "WHO"
       class TestRouter extends RailsRouter
-      scope = angular.scope()
+      scope = $rootScope.$new()
+
+      console.log scope
       $browser = scope.$service '$browser'
       TestRouter.$inject = ['$route','$xhr']
    

@@ -1,4 +1,4 @@
-class Router
+class @Router
   initRoutes:(routes)->
     for routeName, info of routes
       if routeName is "default"
@@ -14,17 +14,18 @@ class Router
     @$xhr.defaults.headers.put['Content-Type'] = 'application/json'
 
   constructor:(@$route, @$xhr)->
+    console.log "RT"
+    console.log "XHR"
     @setupXhr()
     @initRoutes @routes?()
 
-class @RailsRouter extends Router
+class @RailsRouter extends @Router
    setupXHR: ->
     super()
     if token = $("meta[name='csrf-token']").attr("content")
       @$xhr.defaults.headers.post['X-CSRF-Token'] = token
       @$xhr.defaults.headers.put['X-CSRF-Token'] = token
       @$xhr.defaults.headers['delete']['X-CSRF-Token'] = token
-
 
 @resourceService = (serviceName, path, methods...)->
 	if methods.length is 0
