@@ -1,152 +1,101 @@
-# angular-seed — the seed for AngularJS apps
+# UNDER CONSTRUCTION - DON'T USE UNTIL THIS MESSAGE IS GONE 
 
-This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
-You can use it to quickly bootstrap your angular webapp projects and dev environment for these
-projects.
+Once I add all support files and tests and set up the CS-to-JS pipeline we'll be good to go.  Till then, move on, this is not the library you're looking for.
 
-The seed contains angular libraries, test libraries and a bunch of scripts all preconfigured for
-instant web development gratification. Just clone the repo (or download the zip/tarball), start up
-our (or yours) webserver and you are ready to develop and test your application.
+Also, I am updating it to use 10.6 (after I learn all the new 10.6 goodness), so I just brought in the code from the newest angular-seed.
 
-The seed app doesn't do much, just shows how to wire two controllers and views together. You can
-check it out by opening app/index.html in your browser (might not work file `file://` scheme in
-certain browsers, see note below).
+# angle-up - The HTML6 Shiv [![Build Status](https://secure.travis-ci.org/ludicast/angle-up.png)](http://travis-ci.org/ludicast/angle-up)
 
-_Note: While angular is client-side-only technology and it's possible to create angular webapps that
-don't require a backend server at all, we recommend hosting the project files using a local
-webserver during development to avoid issues with security restrictions (sandbox) in browsers. The
-sandbox implementation varies between browsers, but quite often prevents things like cookies, xhr,
-etc to function properly when an html page is opened via `file://` scheme instead of `http://`._
+This project adds helpers for DRYing up your angularjs projects.  The eventual goal is to help you write even less code than angular normally makes you.  My inspiration is Jose Valim's [Inherited Resources](http://github.com/josevalim/inherited_resources) gem
 
+## Assumptions
 
-## How to use angular-seed
+* Coffeescript - though there is a javascript file of the compiled Coffeescript, to edit or test the project (as well as read the docs), you need to know some coffeescript.  I will hopefully have a side-by side comparator in the docs letting people avoid need to know coffeescript to use the library.
+* RESTful controllers where clintside models follow an equivalent naming convention.  This isn't a hard and fast rule, but I am trying to build this functionality out to reduce the clientside boilerplate needed. 
+* Angular 0.10.6 - We are sticking to the "approved bleeding edge"
+* JQuery is loaded somewhere in the asset pipeline.
 
-Clone the angular-seed repository and start hacking...
+### Installation
 
+Just load the angle-up.js file after you load angular.
 
-### Running the app during development
+Or if you are using [angular-rails](http://github.com/ludicast/angular-rails) inside a Rails project, its generators will take care of adding angle-up.js to your asset pipeline.
 
-You can pick one of these options:
+## Helpers
 
-* serve this repository with your webserver
-* install node.js and run `scripts/web-server.js`
+The angle-up.js file contains some helper functions/objects/classes/services to clean things up.
 
-Then navigate your browser to `http://localhost:<port>/app/index.html` to see the app running in
-your browser.
+### Router
 
+There is a Router superclass for your main application router.  If you inherit from it in a coffeescript class 
 
-### Running the app in production
+    class @PhotoGalleryCtrl extends Router
+      routes:->
+        {
+          default: '/photographers'
+          '/photographers':
+            template: "/templates/photographers.html"
+            controller: PhotographersCtrl
+          '/photographers/:photographer_id/galleries':
+            template: "/templates/galleries.html"
+            controller: GalleriesCtrl
+          '/photographers/:photographer_id/galleries/:gallery_id/photos':
+            template: "/templates/photos.html"
+            controller: PhotosCtrl
+        }
 
-This really depends on how complex is your app and the overall infrastructure of your system, but
-the general rule is that all you need in production are all the files under the `app/` directory.
-Everything else should be omitted.
+You will have those routes set up.  All this class needs is a member function called `routes` that returns a hash of routing information.
 
-angular apps are really just a bunch of static html, css and js files that just need to be hosted
-somewhere, where they can be accessed by browsers.
+Note that this class will need to be injected with both the $xhr and the $route object like so:
 
-If your angular app is talking to the backend server via xhr or other means, you need to figure
-out what is the best way to host the static files to comply with the same origin policy if
-applicable. Usually this is done by hosting the files by the backend server or through
-reverse-proxying the backend server(s) and a webserver(s).
+    PhotoGalleryCtrl.$inject = ['$route', '$xhr']
 
+This is because it sets us some CSRF preventions using $xhr as well (defaulting to Rails style, but any patches are welcome).  Note that this information gets thrown into the controller scope, so `@$xhr` and `@$router` are available in inheriting controllers as well (regardless if inheriting explicitly (through `extends`) or implictly (by being nested in a deeper view tag)).
 
-### Running unit tests
+Much of this is ripped from a demo by [Daniel Nelson](https://github.com/centresource/angularjs_rails_demo).
 
-We recommend using [jasmine](http://pivotal.github.com/jasmine/) and
-[JsTestDriver](http://code.google.com/p/js-test-driver/) for your unit tests/specs, but you are free
-to use whatever works for you.
+### resourceService
 
-Requires java and a local or remote browser.
+The `resourceService` function lets you create endpoints for RESTful requests.  This function has the following prototype:
 
-* start `scripts/test-server.sh` (on windows: `scripts\test-server.bat`)
-* navigate your browser to `http://localhost:9876/`
-* click on one of the capture links (preferably the "strict" one)
-* run `scripts/test.sh` (on windows: `scripts\test.bat`)
+    (serviceName, path, methods...)->
 
+This sets up angular services for the listed path, supportitg whathever methods are listed.  It is called like:
 
-### Continuous unit testing
+    resourceService 'Photos', '/photos/:photo_id', 'index'
+	
+This creates for you an object `Photos` which may be accessed `@photos = Photos.index()`.  So far the accepted actions are 'index', 'update', 'create' and 'destroy'.  If you leave off all actions, it will automatically assume that you want to support all 4.  So if you call the function
 
-Requires ruby and [watchr](https://github.com/mynyml/watchr) gem.
+    resourceService 'SelectedPhotos', '/selected_photos/:selected_photo_id'
+     
+It will create all the necessary endpoints for you.  
 
-* start JSTD server and capture a browser as described above
-* start watchr with `watchr scripts/watchr.rb`
-* in a different window/tab/editor `tail -f logs/jstd.log`
-* edit files in `app/` or `src/` and save them
-* watch the log to see updates
+### autowrap
 
-There are many other ways to achieve the same effect. Feel free to use them if you prefer them over
-watchr.
+An `autowrap` function added to global namespace.  This function takes a class to wrap the resource result in and optionally takes a function to pass it in to (e.g. if you need a function to alert the result).  This function is passed in as the success function like so:
 
+		@todo_list = TodoListService.get {id:id}, autowrap(TodoList)
 
-### End to end testing
+`autowrap` attempts to cast the prototype of the returned object to the class type.  It also calls an initalize function if it exists.  This way, if your object has a little richness to it, the initialize function can fire off some changes.  This bring us to...
 
-angular ships with a baked-in end-to-end test runner that understands angular, your app and allows
-you to write your tests with jasmine-like BDD syntax.
+### AngularModel
 
-Requires a webserver, node.js or your backend server that hosts the angular static files.
+All classes that inherit from AngularModer may be used to wrap the results returned from angular.  They also allow you to map hasMany associations like so (haven't needed belongsTo yet myself):
 
-Check out the [end-to-end runner's documentation](http://goo.gl/e8n06) for more info.
+		class @Todo extends AngularModel
+			schedule:(procrastinationTime)-> # postpone to future 
 
-* create your end-to-end tests in `test/e2e/scenarios.js`
-* serve your project directory with your http/backend server or node.js + `scripts/web-server.js`
-* open `http://localhost:port/test/e2e/runner.html` in your browser
+		class @TodoList extends AngularModel
+			hasMany:
+				todos: Todo
 
+Basically, when `initialize` is called on an instance of `AngularModel` it recursively calls `initialize` (if it exists) on any subobjects found in the hasMany wrapping.
 
-### Receiving updates from upstream
+### eventuallyWork Service
 
-When we upgrade angular-seed's repo with newer angular or testing library code, you can just
-fetch the changes and merge them into your project with git.
+I added an `eventuallyWork` service.  Basically if you call it with a function as its parameter it will keep running the function until it doesn't throw an exception.  This is mostly useful for cases where you have an inner view that has values based on what is set in its outer view.  When that view is visited via a bookmark there might not be time for the outer view to initialize.   It can be run like this (notice the "fat" arrow):
 
-
-## Directory Layout
-
-    app/                --> all of the files to be used in production
-      css/              --> css files
-        app.css         --> default stylesheet
-      img/              --> image files
-      index.html        --> app layout file (the main html template file of the app)
-      js/               --> javascript files
-        controllers.js  --> application controllers
-        filters.js      --> custom angular filters
-        services.js     --> custom angular services
-        widgets.js      --> custom angular widgets
-      lib/              --> angular and 3rd party javascript libraries
-        angular/
-          angular.js            --> the latest angular js
-          angular.min.js        --> the latest minified angular js
-          angular-*.js  --> angular add-on modules
-          version.txt           --> version number
-      partials/         --> angular view partials (partial html templates)
-        partial1.html
-        partial2.html
-
-    config/jsTestDriver.conf    --> config file for JsTestDriver
-
-    logs/               --> JSTD and other logs go here (git-ignored)
-
-    scripts/            --> handy shell/js/ruby scripts
-      test-server.bat   --> starts JSTD server (windows)
-      test-server.sh    --> starts JSTD server (*nix)
-      test.bat          --> runs all unit tests (windows)
-      test.sh           --> runs all unit tests (*nix)
-      watchr.rb         --> config script for continuous testing with watchr
-      web-server.js     --> simple development webserver based on node.js
-
-    test/               --> test source files and libraries
-      e2e/              -->
-        runner.html     --> end-to-end test runner (open in your browser to run)
-        scenarios.js    --> end-to-end specs
-      lib/
-        angular/                --> angular testing libraries
-          angular-mocks.js      --> mocks that replace certain angular services in tests
-          angular-scenario.js   --> angular's scenario (end-to-end) test runner library
-          version.txt           --> version file
-        jasmine/                --> Pivotal's Jasmine - an elegant BDD-style testing framework
-        jasmine-jstd-adapter/   --> bridge between JSTD and Jasmine
-        jstestdriver/           --> JSTD - JavaScript test runner
-      unit/                     --> unit level specs/tests
-        controllersSpec.js      --> specs for controllers
-
-## Contact
-
-For more information on angular please check out http://angularjs.org/
+    eventuallyWork =>
+      for student in this.classroom.students
+        if student.id = $routeParams.student_id
+          this.reportCard = student.report_card
