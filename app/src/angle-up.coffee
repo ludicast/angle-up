@@ -1,27 +1,5 @@
-class @Router
-  initRoutes:(routes)->
-    for routeName, info of routes
-      if routeName is "default"
-        @$route.otherwise redirectTo: info
-      else
-        @$route.when routeName,
-          template: info.template
-          controller: info.controller
-    @$route.parent @
-
-  setupXhr:->
-    @$xhr.defaults.headers.post['Content-Type'] = 'application/json'
-    @$xhr.defaults.headers.put['Content-Type'] = 'application/json'
-
-  constructor:(@$route, @$xhr)->
-    console.log "RT"
-    console.log "XHR"
-    @setupXhr()
-    @initRoutes @routes?()
-
-class @RailsRouter extends @Router
+class @RailsRouter
    setupXHR: ->
-    super()
     if token = $("meta[name='csrf-token']").attr("content")
       @$xhr.defaults.headers.post['X-CSRF-Token'] = token
       @$xhr.defaults.headers.put['X-CSRF-Token'] = token

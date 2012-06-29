@@ -27,32 +27,7 @@ The angle-up.js file contains some helper functions/objects/classes/services to 
 
 ### Router
 
-There is a Router superclass for your main application router.  If you inherit from it in a coffeescript class 
-
-    class @PhotoGalleryCtrl extends Router
-      routes:->
-        {
-          default: '/photographers'
-          '/photographers':
-            template: "/templates/photographers.html"
-            controller: PhotographersCtrl
-          '/photographers/:photographer_id/galleries':
-            template: "/templates/galleries.html"
-            controller: GalleriesCtrl
-          '/photographers/:photographer_id/galleries/:gallery_id/photos':
-            template: "/templates/photos.html"
-            controller: PhotosCtrl
-        }
-
-You will have those routes set up.  All this class needs is a member function called `routes` that returns a hash of routing information.
-
-Note that this class will need to be injected with both the $xhr and the $route object like so:
-
-    PhotoGalleryCtrl.$inject = ['$route', '$xhr']
-
-This is because it sets us some CSRF preventions using $xhr as well (defaulting to Rails style, but any patches are welcome).  Note that this information gets thrown into the controller scope, so `@$xhr` and `@$router` are available in inheriting controllers as well (regardless if inheriting explicitly (through `extends`) or implictly (by being nested in a deeper view tag)).
-
-Much of this is ripped from a demo by [Daniel Nelson](https://github.com/centresource/angularjs_rails_demo).
+There used to be a Router superclass for your main application router.  However we no longer supply that because the angular routing code is now very clear.
 
 ### resourceService
 
