@@ -11,8 +11,8 @@ This project adds helpers for DRYing up your angularjs projects.  The eventual g
 ## Assumptions
 
 * Coffeescript - though there is a javascript file of the compiled Coffeescript, to edit or test the project (as well as read the docs), you need to know some coffeescript.  I will hopefully have a side-by side comparator in the docs letting people avoid need to know coffeescript to use the library.
-* RESTful controllers where clintside models follow an equivalent naming convention.  This isn't a hard and fast rule, but I am trying to build this functionality out to reduce the clientside boilerplate needed. 
-* Angular 0.10.6 - We are sticking to the "approved bleeding edge"
+* RESTful controllers where clientside models follow an equivalent naming convention.  This isn't a hard and fast rule, but I am trying to build this functionality out to reduce the clientside boilerplate needed. 
+* Angular 1.0.1 - We are sticking to the "approved bleeding edge"
 * JQuery is loaded somewhere in the asset pipeline.
 
 ### Installation
