@@ -1,5 +1,5 @@
 class @RailsRouter
-   setupXHR: ->
+  setupXHR: ->
     if token = $("meta[name='csrf-token']").attr("content")
       @$xhr.defaults.headers.post['X-CSRF-Token'] = token
       @$xhr.defaults.headers.put['X-CSRF-Token'] = token
@@ -31,7 +31,9 @@ class @AngularModel
 			for name, clazz of @hasMany
         @[name] or= []
 				for obj in @[name]
-					obj.__proto__ = new clazz()
+					objProto = new clazz()
+					for key, value of objProto
+				      obj[key] = value
 					obj.initialize?()
 
 module = angular.module "eventuallyWork", ['$defer']
@@ -46,11 +48,13 @@ module.factory 'serviceId', ->
 
 @adaptForAngular = (clazz, alias, injections...)=>
   injections.push "$scope"
-  console.log "adapting goodness", clazz, clazz.name
   window[alias] = (args..., scope)->
     controller = new clazz()
-    angular.extend scope, controller
+    for key, value of controller
+      scope[key] = value
+
     scope.initializeInjections? args...
+    
     scope.$scope = scope
     
     for observer in (clazz.$observers || [])
@@ -62,10 +66,13 @@ class @JqueryObserver
   constructor:(@$scope)->
     $ =>
       @onReady?()
+      @$scope.$digest()
 
 @autowrap = (clazz, callback)->
-	(result)->
-		result.__proto__ = new clazz()
-		result.initialize?()
-		if callback
-			callback(result)
+  (result)->
+    resultProto = new clazz()
+    for key, value of resultProto
+      result[key] = value
+    result.initialize?()
+    if callback
+      callback(result)
