@@ -1,12 +1,6 @@
-# UNDER CONSTRUCTION - DON'T USE UNTIL THIS MESSAGE IS GONE 
+# angle-up - The HTML6 Shiv
 
-Once I add all support files and tests and set up the CS-to-JS pipeline we'll be good to go.  Till then, move on, this is not the library you're looking for.
-
-Also, I am updating it to use 10.6 (after I learn all the new 10.6 goodness), so I just brought in the code from the newest angular-seed.
-
-# angle-up - The HTML6 Shiv [![Build Status](https://secure.travis-ci.org/ludicast/angle-up.png)](http://travis-ci.org/ludicast/angle-up)
-
-This project adds helpers for DRYing up your angularjs projects.  The eventual goal is to help you write even less code than angular normally makes you.  My inspiration is Jose Valim's [Inherited Resources](http://github.com/josevalim/inherited_resources) gem
+This project adds helpers for DRYing up your angularjs projects.  The eventual goal is to help you write even less code than angular normally makes you.  My inspiration is Jose Valim's [Inherited Resources](http://github.com/josevalim/inherited_resources) gem.
 
 ## Assumptions
 
