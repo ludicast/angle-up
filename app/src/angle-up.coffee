@@ -6,35 +6,35 @@ class @RailsRouter
       @$xhr.defaults.headers['delete']['X-CSRF-Token'] = token
 
 @resourceService = (serviceName, path, methods...)->
-	if methods.length is 0
-		methods.push 'index', 'create', 'update', 'destroy', 'show'
-	commandHash = {}
-	for type in methods
-		commandHash[type] = switch type
-			when 'index'
-				{ method:'GET', isArray:true }
-			when 'show'
-				{ method:'GET', isArray:false }
-			when 'create'
-				{ method: 'POST' }
-			when 'update'
-				{ method: 'PUT' }
-			when 'destroy'
-				{ method: 'DELETE' }
+  if methods.length is 0
+    methods.push 'index', 'create', 'update', 'destroy', 'show'
+  commandHash = {}
+  for type in methods
+    commandHash[type] = switch type
+      when 'index'
+        { method:'GET', isArray:true }
+      when 'show'
+        { method:'GET', isArray:false }
+      when 'create'
+        { method: 'POST' }
+      when 'update'
+        { method: 'PUT' }
+      when 'destroy'
+        { method: 'DELETE' }
 	
-	angular.service serviceName, ($resource)->
-		$resource path, {}, commandHash
+  angular.service serviceName, ($resource)->
+    $resource path, {}, commandHash
 
 class @AngularModel
-	initialize:->
-		if @hasMany
-			for name, clazz of @hasMany
+  initialize:->
+    if @hasMany
+      for name, clazz of @hasMany
         @[name] or= []
-				for obj in @[name]
-					objProto = new clazz()
-					for key, value of objProto
-				      obj[key] = value
-					obj.initialize?()
+        for obj in @[name]
+          objProto = new clazz()
+          for key, value of objProto
+            obj[key] = value
+          obj.initialize?()
 
 module = angular.module "eventuallyWork", ['$defer']
 module.factory 'serviceId', ->
@@ -73,6 +73,7 @@ class @JqueryObserver
     resultProto = new clazz()
     for key, value of resultProto
       result[key] = value
+
     result.initialize?()
     if callback
       callback(result)
