@@ -2,7 +2,6 @@
   "name": "angle-up",
   "version": "0.0.1",
   "description": "Extensions for angular-js",
-  "main": "index.js",
   "directories": {
     "test": "test"
   },

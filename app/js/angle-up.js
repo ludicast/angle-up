@@ -84,6 +84,7 @@
                 value = objProto[key];
                 obj[key] = value;
               }
+              obj.constructor = objProto.constructor;
               _results1.push(typeof obj.initialize === "function" ? obj.initialize() : void 0);
             }
             return _results1;
@@ -167,6 +168,7 @@
         value = resultProto[key];
         result[key] = value;
       }
+      result.constructor = resultProto.constructor;
       if (typeof result.initialize === "function") {
         result.initialize();
       }

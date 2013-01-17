@@ -34,6 +34,7 @@ class @AngularModel
           objProto = new clazz()
           for key, value of objProto
             obj[key] = value
+          obj.constructor = objProto.constructor
           obj.initialize?()
 
 module = angular.module "eventuallyWork", ['$defer']
@@ -73,7 +74,7 @@ class @JqueryObserver
     resultProto = new clazz()
     for key, value of resultProto
       result[key] = value
-
+    result.constructor = resultProto.constructor
     result.initialize?()
     if callback
       callback(result)
