@@ -1,5 +1,5 @@
 (function() {
-  var module,
+  var inheritClazz, module,
     __slice = [].slice,
     _this = this;
 
@@ -61,12 +61,23 @@
     });
   };
 
+  inheritClazz = function(obj, clazz) {
+    var key, objProto, value;
+    objProto = new clazz();
+    for (key in objProto) {
+      value = objProto[key];
+      obj[key] = value;
+    }
+    obj.constructor = objProto.constructor;
+    return typeof obj.initialize === "function" ? obj.initialize() : void 0;
+  };
+
   this.AngularModel = (function() {
 
     function AngularModel() {}
 
     AngularModel.prototype.initialize = function() {
-      var clazz, key, name, obj, objProto, value, _ref, _results;
+      var clazz, name, obj, _ref, _results;
       if (this.hasMany) {
         _ref = this.hasMany;
         _results = [];
@@ -79,13 +90,7 @@
             _results1 = [];
             for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
               obj = _ref1[_i];
-              objProto = new clazz();
-              for (key in objProto) {
-                value = objProto[key];
-                obj[key] = value;
-              }
-              obj.constructor = objProto.constructor;
-              _results1.push(typeof obj.initialize === "function" ? obj.initialize() : void 0);
+              _results1.push(inheritClazz(obj, clazz));
             }
             return _results1;
           }).call(this));
@@ -162,16 +167,7 @@
 
   this.autowrap = function(clazz, callback) {
     return function(result) {
-      var key, resultProto, value;
-      resultProto = new clazz();
-      for (key in resultProto) {
-        value = resultProto[key];
-        result[key] = value;
-      }
-      result.constructor = resultProto.constructor;
-      if (typeof result.initialize === "function") {
-        result.initialize();
-      }
+      inheritClazz(result, clazz);
       if (callback) {
         return callback(result);
       }

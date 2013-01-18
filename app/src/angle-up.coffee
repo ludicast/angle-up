@@ -25,17 +25,21 @@ class @RailsRouter
   angular.service serviceName, ($resource)->
     $resource path, {}, commandHash
 
+inheritClazz = (obj, clazz)->
+  objProto = new clazz()
+  for key, value of objProto
+    obj[key] = value
+  obj.constructor = objProto.constructor
+  obj.initialize?()
+
+
 class @AngularModel
   initialize:->
     if @hasMany
       for name, clazz of @hasMany
         @[name] or= []
         for obj in @[name]
-          objProto = new clazz()
-          for key, value of objProto
-            obj[key] = value
-          obj.constructor = objProto.constructor
-          obj.initialize?()
+          inheritClazz obj, clazz
 
 module = angular.module "eventuallyWork", ['$defer']
 module.factory 'serviceId', ->
@@ -71,10 +75,6 @@ class @JqueryObserver
 
 @autowrap = (clazz, callback)->
   (result)->
-    resultProto = new clazz()
-    for key, value of resultProto
-      result[key] = value
-    result.constructor = resultProto.constructor
-    result.initialize?()
+    inheritClazz result, clazz
     if callback
       callback(result)
