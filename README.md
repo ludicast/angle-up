@@ -33,7 +33,7 @@ This sets up angular services for the listed path, supportitg whathever methods 
 
     resourceService 'Photos', '/photos/:photo_id', 'index'
 	
-This creates for you an object `Photos` which may be accessed `@photos = Photos.index()`.  So far the accepted actions are 'index', 'update', 'create' and 'destroy'.  If you leave off all actions, it will automatically assume that you want to support all 4.  So if you call the function
+This creates for you an object `Photos` which may be accessed `@photos = Photos.index()`.  So far the accepted actions are 'index', 'show', 'update', 'create' and 'destroy'.  If you leave off all actions, it will automatically assume that you want to support all 4.  So if you call the function
 
     resourceService 'SelectedPhotos', '/selected_photos/:selected_photo_id'
      
