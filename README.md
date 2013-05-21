@@ -49,7 +49,7 @@ An `autowrap` function added to global namespace.  This function takes a class t
 
 ### AngularModel
 
-All classes that inherit from AngularModer may be used to wrap the results returned from angular.  They also allow you to map hasMany associations like so (haven't needed belongsTo yet myself):
+All classes that inherit from AngularModel may be used to wrap the results returned from angular.  They also allow you to map hasMany associations like so (haven't needed belongsTo yet myself):
 
 		class @Todo extends AngularModel
 			schedule:(procrastinationTime)-> # postpone to future 
